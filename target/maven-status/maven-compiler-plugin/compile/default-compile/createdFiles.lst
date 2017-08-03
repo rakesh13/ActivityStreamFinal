@@ -1,0 +1,6 @@
+com\stackroute\user\config\AppConfig.class
+com\stackroute\user\main\ActivityStreamUserService.class
+com\stackroute\user\dao\impl\UserDaoImpl.class
+com\stackroute\user\dao\UserDao.class
+com\stackroute\user\model\User.class
+com\stackroute\user\restcontroller\UserController.class
