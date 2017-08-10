@@ -57,4 +57,7 @@ public class UserTest {
             .andExpect(jsonPath("$.message").value("Hello Sweta!!!"))
             .andExpect(jsonPath("$.emailId").value("sweta@gmail.com"));
 	}
+	
+	//where are the other test cases of service methods?
+	
 }
