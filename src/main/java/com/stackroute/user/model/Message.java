@@ -15,7 +15,11 @@ public class Message implements Serializable{
 	private String senderEmailId;
 	@JsonFormat(pattern="dd-mm-yyyy hh:mm:ss")
 	private Date sentDate;
+	
+	//Who and when it will be provided?  
 	private long messageSize;
+	//Who and when it will be provided?  
+	
 	private long maximumSize;
 	private String messageType;
 	private String receiverEmailId;
