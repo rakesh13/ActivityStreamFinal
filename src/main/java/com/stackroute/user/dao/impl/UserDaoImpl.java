@@ -91,7 +91,7 @@ public UserDaoImpl() {
 
 	public User validate(String id, String password) {
 		
-		
+		//Use Criteria instead of building query manually.
 		String hql = "from User  where emailId= '" + id +"' and password = '" + password+"'";
 		
 		Query query=  sessionFactory.openSession().createQuery(hql);
