@@ -32,6 +32,8 @@ import com.stackroute.user.vo.UserHomeVO;
 @RequestMapping("/api/user")
 @EnableWebMvc
 public class UserController {
+	
+	//Why not private??
 
 	@Autowired
 	 UserDao userDao;
@@ -50,13 +52,18 @@ public class UserController {
 	public static final String MESSAGE_SERVICE_URI = "http://172.23.238.165:8089/getMessagesByCircleId/veggrp05";
 	public static final String url="http://172.23.238.154:8888/activityStream/api/message/";
 	@RequestMapping(produces = "application/json")
+	
+	//Use List<User>
 	public List getUser() {
+		//Better to use plural if it is list
+		// i.., users , listOfUsers,  userList etc.,
 		List<User> user=userDao.list();
 		for(User usr:user)
 		{
 			Link link=linkTo(UserController.class).slash(usr.getEmailId()).withSelfRel();
 			usr.add(link);
 		}
+		//Remove commented code.
 		//restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 		//List<Circle> u=(List<Circle>) restTemplate.getForObject(CIRCLE_SERVICE_URI, CircleInfoResponse.class).getCircles();
 		/*Circle[] circles=restTemplate.getForObject(CIRCLE_SERVICE_URI, Circle[].class);
@@ -72,25 +79,31 @@ public class UserController {
 	@RequestMapping(value="/search",method=RequestMethod.POST)
 	public ResponseEntity<User> getUser(@RequestBody String id) {
 		
+		//Whey this user1??
 		User user1=userDao.get(id);
 		
 		if (user1 == null) {
+			//If the user does not exist, why should add links?
 			user1.add(linkTo(UserController.class).slash(user.getEmailId()).withSelfRel());
 			return new ResponseEntity("No Customer found for ID " + id, HttpStatus.NOT_FOUND);
 		}
+		//add links here
 		return new ResponseEntity(user1, HttpStatus.OK);
 	}
 
 	@RequestMapping(value="/insert",method=RequestMethod.POST)
 	public ResponseEntity createuser(@RequestBody User user) {
+		//what if the user already exist?
 		userDao.save(user);
 		return new ResponseEntity(user, HttpStatus.OK);
 	}
 	
 	@PostMapping("/authenticate")
+	//Use ResponseEntity<UserHomeVO>
 	public ResponseEntity authenticateUser(@RequestBody User loggedUser)
 	{
 		userHomeVO=new UserHomeVO();
+		//remove all the SOP throught the project
 		System.out.println(loggedUser.getEmailId());
 		user=userDao.validate(loggedUser.getEmailId(), loggedUser.getPassword());
 		if(user==null)
@@ -108,7 +121,9 @@ public class UserController {
 			{
 				allCircleNames.add(circle.getCircleName());
 			}
+			//Why to create new circle here?  Every time whenever the user login, creating new circle?
 			Circle newCircle=new Circle();
+			//why to set created by when the user logging in.  
 			newCircle.setCreatedBy(user.getEmailId());
 			List<String> myCircleNames=new ArrayList<>();
 			Circle[] circlesByUser=restTemplate.postForObject(CIRCLE_SERVICE_URI+"getCirclesByUser",newCircle, Circle[].class);
@@ -124,6 +139,7 @@ public class UserController {
 			List<String> allUserNames=new ArrayList<>();
 			allUsers.forEach(username -> allUserNames.add(username.getEmailId()));
 			userHomeVO.setAllUserEmailId(allUserNames);
+			//whey this circle name general??
 			userHomeVO.setCircleName("general");
 			List<Message> allMessageByCircleName=new ArrayList<>();
 			Message[] allMessages=restTemplate.getForObject(url+"getAllMessagesByCircleName/general",Message[].class);
